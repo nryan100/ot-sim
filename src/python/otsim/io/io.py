@@ -65,7 +65,7 @@ class IO(HelicsFederate):
     HelicsFederate.federate_name = name
 
     start = el.findtext('start-time', default=1)
-    end   = el.findtext('end-time',   default=3600)
+    end   = el.findtext('end-time',   default=10800)
 
     HelicsFederate.start_time = int(start)
     HelicsFederate.end_time   = int(end)
