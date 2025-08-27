@@ -6,6 +6,22 @@ from typing      import NamedTuple, List, Dict
 
 import helics as h
 
+# added additional logger
+import logging
+import sys
+
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+
+stdout_handler = logging.StreamHandler(sys.stdout)
+stdout_handler.setLevel(logging.INFO)
+
+file_handler = logging.FileHandler('/var/log/ot-sim-helics.log')
+file_handler.setLevel(logging.DEBUG)
+
+logger.addHandler(file_handler)
+logger.addHandler(stdout_handler)
+
 
 class HelicsException(h.HelicsException):
     pass
@@ -259,8 +275,10 @@ class HelicsFederate(object):
     def log(self, msg, helper=False):
         if helper:
             print(f'[{self.module_name}::helics_helper] {msg}', flush=True)
+            logging.info(f'[{self.module_name}::helics_helper] {msg}')
         else:
             print(f'[{self.module_name}] {msg}', flush=True)
+            logging.info(f'[{self.module_name}::helics_helper] {msg}')
 
     def enter_execution_mode(self):
         self.log('entering execution mode', helper=True)
@@ -374,6 +392,8 @@ class HelicsFederate(object):
         self.messages.recv.clear()
 
         for e, endp in self._endpoints.items():
+            result = h.helicsEndpointHasMessage(endp)
+            self.log(f"_endpoints_recv endpoint: {result}")
             if h.helicsEndpointHasMessage(endp) != 0:
                 msg = h.helicsEndpointGetMessage(endp)
 
