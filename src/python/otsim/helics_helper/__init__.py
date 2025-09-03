@@ -14,10 +14,10 @@ logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
 stdout_handler = logging.StreamHandler(sys.stdout)
-stdout_handler.setLevel(logging.INFO)
+stdout_handler.setLevel(logging.DEBUG)
 
-stderr_handler = logger.StreamHandler(sys.stderr)
-stderr_handler.setLevel(logging.INFO)
+stderr_handler = logging.StreamHandler(sys.stderr)
+stderr_handler.setLevel(logging.DEBUG)
 
 file_handler = logging.FileHandler('/var/log/ot-sim-helics.log')
 file_handler.setLevel(logging.DEBUG)
